@@ -1,13 +1,12 @@
 package org.com.au.wagerapi.model;
 
-import javax.ws.rs.QueryParam;
-
 public class BetTransactionCreateModel {
 
-	private @QueryParam("BetType") String BetType;
-	private @QueryParam("PropNumber") int PropNumber;
-	private @QueryParam("CustomerID") int CustomerID;
-	private @QueryParam("Investment") int Investment;
+	private  String BetType;
+	private  int PropNumber;
+	private  int CustomerID;
+	private  int Investment;
+	
 	public String getBetType() {
 		return BetType;
 	}
