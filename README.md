@@ -47,7 +47,7 @@ Also provides end points that generate reports on,
 
 ## Architecture
 
-![alt text](https://github.com/dixitgangaiah/wagerapi/blob/master/architecture.png)
+![alt text](https://github.com/dixitgangaiah/wagerapi/blob/master/architecture.PNG)
 
 ## Database schema
 
