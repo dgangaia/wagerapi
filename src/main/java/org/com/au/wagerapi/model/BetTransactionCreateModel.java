@@ -1,35 +1,38 @@
 package org.com.au.wagerapi.model;
 
+import javax.xml.bind.annotation.XmlType;
+
+@XmlType(propOrder={"bettype", "propnumber", "customerid", "investment"})
 public class BetTransactionCreateModel {
 
-	private  String BetType;
-	private  int PropNumber;
-	private  int CustomerID;
-	private  int Investment;
-	
-	public String getBetType() {
-		return BetType;
+	private  String bettype;
+	private  int propnumber;
+	private  int customerid;
+	private  int investment;
+	public String getBettype() {
+		return bettype;
 	}
-	public void setBetType(String betType) {
-		BetType = betType;
+	public void setBettype(String bettype) {
+		this.bettype = bettype;
 	}
-	public int getPropNumber() {
-		return PropNumber;
+	public int getPropnumber() {
+		return propnumber;
 	}
-	public void setPropNumber(int propNumber) {
-		PropNumber = propNumber;
+	public void setPropnumber(int propnumber) {
+		this.propnumber = propnumber;
 	}
-	public int getCustomerID() {
-		return CustomerID;
+	public int getCustomerid() {
+		return customerid;
 	}
-	public void setCustomerID(int customerID) {
-		CustomerID = customerID;
+	public void setCustomerid(int customerid) {
+		this.customerid = customerid;
 	}
 	public int getInvestment() {
-		return Investment;
+		return investment;
 	}
 	public void setInvestment(int investment) {
-		Investment = investment;
+		this.investment = investment;
 	}
-
+	
+	
 }

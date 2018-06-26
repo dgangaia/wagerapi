@@ -11,14 +11,14 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
+import org.com.au.wagerapi.exceptions.UserNotFoundException;
 import org.com.au.wagerapi.model.BetCountPerBetTypeModel;
 import org.com.au.wagerapi.model.BetCountPerHourModel;
 import org.com.au.wagerapi.model.BetInvestmentCustomerModel;
 import org.com.au.wagerapi.model.BetInvestmentTypeModel;
+import org.com.au.wagerapi.model.BetTransactionCreateModel;
 import org.com.au.wagerapi.model.BetTypeModel;
-import org.com.au.wagerapi.model.CustomerModel;
 import org.com.au.wagerapi.service.BetTypeService;
-import org.com.au.wagerapi.service.CustomerService;
 
 @Path("/bet")
 public class BetResource {
@@ -70,4 +70,14 @@ public class BetResource {
 		return serv.getBetPerHourService();	
 	}
 	
+	
+	@POST
+	@Path("/createbet")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public BetTransactionCreateModel setbetTypeResource(BetTransactionCreateModel bean){
+		LOG.info("BetTransactionResource : setbetTypeResource"+bean.getBettype());
+		serv.createBetService(bean);
+		return bean;
+	}
+
 }

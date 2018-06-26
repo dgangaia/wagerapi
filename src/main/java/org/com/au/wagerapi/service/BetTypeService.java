@@ -8,18 +8,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.com.au.wagerapi.exceptions.DataNotFoundException;
+import org.com.au.wagerapi.exceptions.UserNotFoundException;
 import org.com.au.wagerapi.model.BetCountPerBetTypeModel;
 import org.com.au.wagerapi.model.BetCountPerHourModel;
 import org.com.au.wagerapi.model.BetInvestmentCustomerModel;
 import org.com.au.wagerapi.model.BetInvestmentTypeModel;
+import org.com.au.wagerapi.model.BetTransactionCreateModel;
 import org.com.au.wagerapi.model.BetTypeModel;
 import org.com.au.wagerapi.utilites.DBConnection;
 
 public class BetTypeService {
 
 	public static Logger LOG = Logger.getLogger(BetTypeService.class);
-	
+
 	List<BetTypeModel> betlist = new ArrayList<BetTypeModel>(); 
+	private static final String USER_NOT_FOUND = "Please provide valid Customer ID to place bet";
+	private static final String USER_ID_NULL = "Customer ID cannot be null. Please provide valid Customer ID to place bet";
 	
 	public List<BetTypeModel> getBetTypeService(){
 
@@ -130,7 +135,7 @@ public class BetTypeService {
 			}
 		}
 		return betInvtlist;
-	
+
 	}
 
 	public List<BetCountPerBetTypeModel> getCountByBetTypeService() {
@@ -207,5 +212,60 @@ public class BetTypeService {
 			}
 		}
 		return betInvtlist;
+	}
+
+	public void createBetService(BetTransactionCreateModel bean) {
+		List<BetTransactionCreateModel> betInvtlist = new ArrayList<BetTransactionCreateModel>(); 
+		DBConnection conn = new DBConnection();
+		LOG.info("BetTypeService : createBetService");
+		Connection con = conn.connect();
+		BetCountPerHourModel betInvest = null;
+		try{
+			if(bean.getCustomerid() != 0){
+				if(validateUserID(bean.getCustomerid(), con)){
+					LOG.info("BetTypeService : createBetService : validateUserID : User ID is present");
+					
+					
+				}else {
+					throw new UserNotFoundException (USER_NOT_FOUND);
+				}
+			}else{
+				throw new UserNotFoundException (USER_ID_NULL);
+			}
+		}
+		catch (UserNotFoundException e) {
+			System.out.println("UserNotFoundException"+e.getMessage());
+			throw new UserNotFoundException (e.getMessage());
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(con != null){
+				try {
+					con.close();
+					conn.disconnect();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return;
+
+	}
+
+	private boolean validateUserID(int customerId, Connection con) throws Exception{		
+		boolean isFlag = false;
+			String sql= "select id from wager_tran.customers where id = ?";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, customerId);
+			ResultSet rs = pstmt.executeQuery();  
+			if (!rs.isBeforeFirst() ) {
+				LOG.info("validateUserID : ID not found");
+			} else {	
+				while(rs.next()) { 
+					isFlag = true;
+				}
+			}
+		return isFlag;		
 	}
 }
